@@ -33,7 +33,7 @@ namespace PoGo.NecroBot.Logic.Tasks
 
                 if (duplicatePokemon.Cp >=
                     session.Inventory.GetPokemonTransferFilter(duplicatePokemon.PokemonId).KeepMinCp ||
-                    PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >
+                    (duplicatePokemon.IndividualAttack + duplicatePokemon.IndividualDefense + duplicatePokemon.IndividualStamina) / 45.0 * 100.0 >
                     session.Inventory.GetPokemonTransferFilter(duplicatePokemon.PokemonId).KeepMinIvPercentage)
                 {
                     continue;
