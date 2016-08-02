@@ -354,6 +354,27 @@ namespace PoGo.NecroBot.Logic
                     .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
         }
 
+        private enum PokemonToPowerup
+        {
+            Dragonite = PokemonId.Dragonite,
+            Gyarados = PokemonId.Gyarados,
+            Snorlax = PokemonId.Snorlax,
+            Chansey = PokemonId.Chansey,
+            Flareon = PokemonId.Flareon,
+            Aerodactyl = PokemonId.Aerodactyl
+        }
+        public async Task<IEnumerable<PokemonData>> GetPokemonToPowerUp()
+        {
+            var myPokemons = await GetPokemons();
+            var pokemonToLevel = myPokemons.Where(p => p.DeployedFortId == string.Empty && 
+                    (p.PokemonId == PokemonId.Dragonite || p.PokemonId == PokemonId.Gyarados || p.PokemonId == PokemonId.Snorlax || p.PokemonId == PokemonId.Chansey ||
+                    p.PokemonId == PokemonId.Flareon || p.PokemonId == PokemonId.Aerodactyl || p.PokemonId == PokemonId.Wigglytuff)
+                    && (p.IndividualAttack == 15 && p.IndividualDefense == 15 && p.IndividualStamina == 15))
+                    .OrderByDescending(p => p.Cp);
+
+            return pokemonToLevel;
+        }
+
         public async Task<IEnumerable<PokemonData>> GetPokemonToEvolve(IEnumerable<PokemonId> filter = null)
         {
             var myPokemons = await GetPokemons();
